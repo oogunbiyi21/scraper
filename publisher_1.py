@@ -18,7 +18,7 @@ chromedriver_autoinstaller.install()  # Check if the current version of chromedr
 options = Options()
 options.headless = True
 options.add_argument("--window-size=1920,1200")
-driver = webdriver.Chrome()
+driver = webdriver.Chrome(options=options)
 url = "https://www.publishers.asn.au/Web/Web/Directory/Member%20Directory.aspx?hkey=3ffd0619-5e25-409b-95c6-f8ee45dad230"
 driver.get(url)
 
