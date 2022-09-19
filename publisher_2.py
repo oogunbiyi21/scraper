@@ -17,12 +17,12 @@ df = pd.read_csv("links.csv")
 links = df["links"].tolist()
 link_dict_list = []
 
-for link in links[:1]:
+for link in links:
     link_dict = {}
     try:
         chromedriver_autoinstaller.install()
         options = Options()
-        options.headless = False
+        options.headless = True
         options.add_argument("--window-size=1920,1200")
         driver = webdriver.Chrome(options=options)
         driver.get(link)
@@ -143,8 +143,8 @@ for link in links[:1]:
         driver.find_element(by=By.CSS_SELECTOR,
                             value='[aria-controls ="ctl01_TemplateBody_WebPartManager1_gwpciOrganisationProfile_ciOrganisationProfile_Page_4"]').click()
         time.sleep(15)
-        driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-        driver.save_screenshot('screenshot.png')
+        # driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        # driver.save_screenshot('screenshot.png')
 
         # Get Services
         try:
@@ -162,10 +162,12 @@ for link in links[:1]:
         except NoSuchElementException:
             link_dict["sectors"] = None
 
+        print(link_dict)
         link_dict_list.append(link_dict)
 
     finally:
         driver.quit()
 
 link_dict_df = pd.DataFrame(link_dict_list).drop_duplicates()
+link_dict_df.to_csv("publisher_data.csv", index=False)
 print(link_dict_df)
