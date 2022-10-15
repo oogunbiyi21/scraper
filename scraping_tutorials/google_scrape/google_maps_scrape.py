@@ -9,17 +9,17 @@ import pandas as pd
 chromedriver_autoinstaller.install()
 
 options = Options()
-options.headless = True
+options.headless = False
 options.add_argument("--window-size=1920,1200")
 driver = webdriver.Chrome(options=options)
 
-url = 'https://www.google.co.uk/maps/search/co-working+space+near+New+York+City'
+url = 'https://www.google.co.uk/maps/search/co-working+space+in+Birmingham,+UK/'
 driver.get(url)
 
-time.sleep(5)
-
-accept_button = driver.find_element(By.CSS_SELECTOR, "[aria-label='Accept all']")
-accept_button.click()
+# time.sleep(5)
+#
+# accept_button = driver.find_element(By.CSS_SELECTOR, "[aria-label='Accept all']")
+# accept_button.click()
 
 time.sleep(10)
 
@@ -30,6 +30,8 @@ response = Selector(page_content)
 results = []
 
 for el in response.xpath('//div[contains(@aria-label, "Results for")]/div/div[./a]'):
+    print(type(el))
+    print(el)
     results.append({
         'link': el.xpath('./a/@href').extract_first(''),
         'title': el.xpath('./a/@aria-label').extract_first('')
